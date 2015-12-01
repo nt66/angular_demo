@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="ngapp">
+<head>
+	<meta charset="UTF-8">
+	<title>scope可以传播事件</title>
+</head>
+<body>
+	<div ng-controller='EventController'>
+		<b>root scope</b>
+		<tt>count:</tt>{{count}}
+		<ul>
+			<li ng-repeat='i in [1]' ng-controller='EventController'>
+				<button ng-click="$emit('myevent')"> $emit </button>
+				<button ng-click="$broadcast('myevent')"> $broadcast </button>
+				<br>
+				now scope
+				<tt>count:</tt>{{count}}
+				<ul>
+					<li ng-repeat='i in [1,2]' ng-controller='EventController'>
+						leaf scope
+						<tt>count:</tt>{{count}}
+					</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+</body>
+<script type="text/javascript" src="../bower_components/angular/angular.min.js"></script>
+<script type="text/javascript" src="scopeB.js"></script>
+</html>
