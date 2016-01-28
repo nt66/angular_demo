@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" ng-app='myApp'>
+<head>
+	<meta charset="UTF-8">
+</head>
+<body>
+	<my-directive></my-directive>
+	<h1 ng-init="greeting='helloworld'">
+		the greeting is:{{greeting}}
+	</h1>
+</body>
+<script type="text/javascript" src="../bower_components/angular/angular.min.js"></script>
+<script type="text/javascript">
+	var myApp = angular.module('myApp',[])
+	.directive('myDirective',function () {//指令名称要驼峰式 注意<my-directive>
+	return{
+		restrict:'E',
+		template:'<a href="http://www.google.com">click me to go to google</a>',
+		replace:true
+	}
+});
+</script>
+</html>

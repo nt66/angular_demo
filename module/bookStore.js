@@ -27,4 +27,4 @@ bookStoreModule.service('Book',function Book ($rootScope) {
 		   });
 		}
 	};
-})
+});
