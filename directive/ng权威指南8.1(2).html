@@ -1,0 +1,38 @@
+<!--
+scope作用域
+-->
+<!DOCTYPE html>
+<html lang="en" ng-app='myApp'>
+<head>
+	<meta charset="UTF-8">
+</head>
+<body>
+	<p>we can access: {{rootProperty}}</p>
+	<div ng-controller="ParentController">
+		<p>parent can access:{{rootProperty}}
+		 AND {{ParentProperty}}</p>
+		<div ng-controller="ChildController">
+			<p>
+				Child can access：{{rootProperty}}
+				AND {{ParentProperty}}
+				AND {{ChildProperty}}
+			</p>
+			<p>{{ fullSentenceFromChild }}</p>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="../bower_components/angular/angular.min.js"></script>
+<script type="text/javascript">
+	var myApp = angular.module('myApp',[])
+	.run(function($rootScope){
+		$rootScope.rootProperty = 'root scope';
+	})
+	.controller('ParentController',function ($scope) {
+		$scope.ParentProperty = 'parent scope';
+	})
+	.controller('ChildController',function ($scope) {
+		$scope.ChildProperty = 'child scope';
+		$scope.fullSentenceFromChild = $scope.rootProperty +","+ $scope.ParentProperty +","+$scope.ChildProperty
+	})
+</script>
+</html>

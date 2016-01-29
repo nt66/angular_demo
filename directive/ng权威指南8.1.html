@@ -4,10 +4,11 @@
 	<meta charset="UTF-8">
 </head>
 <body>
-	<my-directive></my-directive>
-	<h1 ng-init="greeting='helloworld'">
+	<input type="text" ng-model="theirUrl">
+	<my-directive my-url="theirUrl" my-link-text="click me to go to google"></my-directive>
+<!-- 	<h1 ng-init="greeting='helloworld'">
 		the greeting is:{{greeting}}
-	</h1>
+	</h1> -->
 </body>
 <script type="text/javascript" src="../bower_components/angular/angular.min.js"></script>
 <script type="text/javascript">
@@ -15,7 +16,12 @@
 	.directive('myDirective',function () {//指令名称要驼峰式 注意<my-directive>
 	return{
 		restrict:'E',
-		template:'<a href="http://www.google.com">click me to go to google</a>',
+		//template:'<a href="http://www.google.com">click me to go to google</a>',//最简单的方式
+		scope:{
+			myURL:'=myUrl', //这里用来双向数据绑定
+			myLinkText:'@'
+		},
+		template:'<a href="{{myURL}}">{{myLinkText}}</a>',//变量可以在scope中获取，也可以在标签元素中获取;注要指令中国添加scope对象
 		replace:true
 	}
 });
