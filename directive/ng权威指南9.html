@@ -3,17 +3,78 @@
 <head>
 	<meta charset="UTF-8">
 </head>
-<body>
-	<input type="text" ng-model="theirUrl">
-	<my-directive my-url="theirUrl" my-link-text="click me to go to google"></my-directive>
+<style type="text/css">
+	.red{
+		background-color:red;
+	}
+</style>
+<body ng-controller="myDirective">
+	<!-- ng-checked-->
+	<label>someProperty = {{someProperty}}</label>
+	<input type="checkbox" ng-checked="someProperty" ng-init="someProperty = true" ng-model="someProperty">
+	
+	<br/>
+	<!--ng-selected--> 
+	<label>Select Two Fish:</label>
+	<input type="checkbox" ng-model="isTwoFish"><br/>
+	<select>
+	    <option>One Fish</option>
+	    <option ng-selected="isTwoFish">Two Fish</option>
+	</select>
+
+	<br/>
+	
+	<!--ng-href-->
+	<a ng-href="{{url}}">谷歌</a>
+	<br/>
+	
+	<!--ng-switch-->
+	<input type="text" ng-model="person.name" />
+	<div ng-switch on="person.name">
+		<p ng-switch-default>winner is:</p>
+		<h1 ng-switch-when="Ari">{{person.name}}</h1>
+	</div>
+	<br>
+
+	<!--ng-if--> 
+	<div ng-if="2+2==4">
+		ng if 显示
+	</div>
+	<br/>
+	<!--ng-repeater-->
+	<!--ng-bind-->
+	<div ng-init="name='david'">
+		name is: <span ng-bind="name"></span>
+	</div>
+	<br/>
+
+	<!--ng-cloak-->
+	<div ng-init="name2='macheal'">
+		<p ng-cloak>{{name2}}</p>
+	</div>
+	<br/>
+
+	<!--ng-class-->
+	<div ng-controller="ngClassController">
+		<input type="text" ng-model="x" ng-change="change" />
+		<div ng-class="{red:x>5}"> hi david </div>
+	</div>
+
+
+
 </body>
 <script type="text/javascript" src="../bower_components/angular/angular.min.js"></script>
 <script type="text/javascript">
 	var myApp = angular.module('myApp',[])
-	.directive('myDirective',function () {//指令名称要驼峰式 注意<my-directive>
-	return{
-		
-	}
-});
+	.controller('myDirective', function ($scope) {
+		$scope.url = 'http://www.google.com/';
+		$scope.person = {};
+	})
+	.controller('ngClassController',function ($scope) {
+		$scope.change=function () {
+			$scope.$digest();
+			//$scope.$apply();
+		}
+	})
 </script>
 </html>
