@@ -18,8 +18,9 @@
 		restrict:'E',
 		//template:'<a href="http://www.google.com">click me to go to google</a>',//最简单的方式
 		scope:{
-			myURL:'=myUrl', //这里用来双向数据绑定
-			myLinkText:'@'
+			myLinkText:'@'  //绑定父scope的属性;‘@’，也可以显示的指定绑定的属性 ‘@someAttr’
+			myURL:'=myUrl', //双向数据绑定，绑定父scope的属性；'=',也可以‘=someAttr’
+
 		},
 		template:'<a href="{{myURL}}">{{myLinkText}}</a>',//变量可以在scope中获取，也可以在标签元素中获取;注要指令中国添加scope对象
 		replace:true

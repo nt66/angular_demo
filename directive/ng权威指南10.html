@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" ng-app='myApp'>
+<head>
+	<meta charset="UTF-8">
+</head>
+<body>
+	<!--directive定义-->
+	<h1>directive定义</h1>
+	<div my-directive title="{{'你好'}}">{{title}}</div>
+	<!-- <my-directive title="{{'你好'}}">{{title}}</my-directive> -->
+	<!--作用域-->
+	<h1>作用域</h1>
+	<div ng-init="siblingProperty='moredata'">
+	    Inside Div Two: {{ aThirdProperty }}
+	    <div ng-init="aThirdProperty = 'data for 3rd property'" ng-controller="SomeController"> 
+	￼￼		Inside Div Three: {{ aThirdProperty }}
+			<div ng-controller="SecondController">
+			￼	Inside Div Four: {{ aThirdProperty }}
+				<br>
+					Outside myDirective2: {{ myProperty }}
+				<div my-directive2 ng-init="myProperty = 'wow, this is cool'">
+				    Inside myDirective2: {{ myProperty }}
+				</div>
+		    </div>
+	    </div>
+	</div>
+	<!--scope绑定策略 @ = &-->
+	<h1>scope绑定策略 @ = &</h1>
+	<div ng-controller="myController">
+		<div>父scope:
+			<div>Say:{{name}} <br/> 父scope修改name:<input type='text' value="" ng-model="name" />
+			</div>
+		</div>
+		<div>隔离scope&:
+			<div isolated-directive3 action="click()" name ="{{name}}"></div>
+		</div>
+		<div>隔离scope@:
+			<div isolated-directive name="{{name}}"></div>
+		</div>
+		<div>隔离scope@(不使用双括号):
+			<div isolated-directive name="没有name值"></div>
+		</div>
+		<div>隔离scope=:
+			<div isolated-directive2 name="name"></div>
+		</div>
+		<div>隔离scope=(使用双括号):
+			<div isolated-directive2 name="{{name}}"></div>
+		</div>
+		
+	</div>
+</body>
+<script type="text/javascript" src="../bower_components/angular/angular.min.js"></script>
+<script type="text/javascript">
+	var myApp = angular.module('myApp',[])
+	//directive定义
+	.directive('myDirective',function () {
+		return{
+			restrict:'EA', //元素匹配，可以同时匹配多个
+			priority:20, //优先级
+			terminal:true,//用于 compile function调用之前进行排序
+			replace:true,//是否替代当前元素，false 插入中间，true 替代
+			scope:{title:'@'},// false:原来的作用域；true继承上面的scope；{}隔离作用域
+			transclude:true, //将元素中间的内容插入到 ng-transclude的位置
+			template:'<div><a href="http://www.baidu.com">百度</a><div ng-transclude></div></div>',
+		};
+	})
+	//作用域
+	.controller('SomeController',function ($scope) {
+	})
+	.controller('SecondController',function ($scope) {
+	})
+	.directive('myDirective2',function () {
+		return {
+        restrict: 'A',
+        scope: true //true,继承作用域Outside myDirective为空，false 原来的作用 Outside myDirective相等
+    	};
+	})
+	//scope 绑定策略 @ = & (目的是隔离scope和外部进行互交）
+	.controller('myController',function ($scope) {
+		$scope.name = 'hello david';
+		$scope.click = function(){
+			console.log('123');
+			$scope.name = 'hello xinxin';
+		};
+	})
+	//@访问是directive所在标签属性绑定外部字符串 即 <div isolated-directive name="name"></div>
+	.directive('isolatedDirective',function () {
+		return{
+			restrict:'A',
+			scope:{
+				name:'@'
+			},
+			template:'Say:{{name}} <br/> <input type="text" value="" ng-model="name" />'
+		}
+	})
+	//=双向数据绑定，
+	.directive('isolatedDirective2',function () {
+		return{
+			restrict:'A',
+			scope:{
+				name:'='
+			},
+			template:'Say:{{name}} <br/> <input type="text" value="" ng-model="name" />'
+		}
+	})
+	//&调用父scope的方法或修改其属性
+	.directive('isolatedDirective3',function () {
+		return{
+			restrict:'A',
+			scope:{
+				action:'&',
+				name:'@'
+			},
+			template:'<input type="button" value="执行父scope方法" ng-click="action()" />----{{name}}'
+		}
+	})
+	
+</script>
+</html>
