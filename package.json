@@ -1,0 +1,12 @@
+{
+  "name": "angular_demo",
+  "version": "1.0.0",
+  "author":"hualingfeng",
+  "keywords":"javascript,nodejs,angularJs",
+  "private": true,
+  "dependencies": {
+    "express": "*",
+    "ejs": "*",
+    "body-parser": "~1.8.1"
+  }
+}
